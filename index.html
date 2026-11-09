@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Evaluasi Geografi Kelas VIII - Semester Ganjil</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background: radial-gradient(circle at top right, #e0f2fe, #f0fdf4, #f8fafc);
+      min-height: 100vh;
+    }
+    .custom-shadow {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+    .btn-bounce:active {
+      transform: scale(0.98);
+    }
+    .transition-width {
+      transition: width 0.1s linear;
+    }
+    /* Status styles for interactive quiz buttons */
+    .option-btn {
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: #059669;
+      background-color: #f0fdf4;
+      transform: translateY(-2px);
+    }
+    .option-correct {
+      background-color: #15803d !important; /* Hijau gelap tegas */
+      border-color: #166534 !important;
+      color: #ffffff !important;
+    }
+    .option-correct .badge {
+      background-color: #ffffff !important;
+      color: #15803d !important;
+      font-weight: 800;
+    }
+    .option-wrong {
+      background-color: #dc2626 !important; /* Merah tajam */
+      border-color: #991b1b !important;
+      color: #ffffff !important;
+    }
+    .option-wrong .badge {
+      background-color: #ffffff !important;
+      color: #dc2626 !important;
+      font-weight: 800;
+    }
+    .option-dimmed {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased font-sans flex flex-col justify-between">
+
+  <!-- Header App Bar -->
+  <header class="w-full bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-md">
+          <i class="fa-solid fa-earth-americas text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-800 leading-tight">Geografi VIII - Semester Ganjil (Paket B)</h1>
+          <p class="text-xs text-slate-500 font-medium">Prediksi 30 Soal Ujian (Model Analisis & Kasus)</p>
+        </div>
+      </div>
+      <div id="playerBadge" class="hidden items-center bg-slate-100 rounded-full px-3 py-1.5 border border-slate-200">
+        <i class="fa-regular fa-user text-emerald-600 text-xs mr-2"></i>
+        <span id="playerBadgeName" class="text-xs font-semibold text-slate-700 truncate max-w-[120px]">User</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-3xl w-full mx-auto p-4 sm:p-6 my-auto">
+
+    <!-- 1. START SCREEN -->
+    <section id="startScreen" class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 transition-all duration-300">
+      <div class="text-center mb-8">
+        <span class="inline-block py-1 px-3.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold tracking-wide uppercase mb-3">
+          Simulasi Ujian Sekolah - Paket B
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Kuis Geografi Kelas VIII (Model Analisis)</h2>
+        <p class="text-sm sm:text-base text-slate-600 mt-2 max-w-lg mx-auto">
+          Uji penalaran dan pemahaman konsep bentuk muka bumi daratan & lautan, peran lembaga sosial, dinamika demografi, serta variasi perhitungan data kependudukan.
+        </p>
+      </div>
+
+      <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 mb-6 space-y-4">
+        <div>
+          <label for="playerName" class="block text-sm font-semibold text-slate-700 mb-1.5">
+            <i class="fa-solid fa-signature text-emerald-600 mr-1.5"></i>Nama Peserta Kuis:
+          </label>
+          <input type="text" id="playerName" placeholder="Ketik nama lengkap Anda..."
+            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm sm:text-base font-medium transition" />
+          <p id="nameError" class="text-xs text-rose-500 mt-1.5 hidden font-semibold">Harap masukkan nama terlebih dahulu!</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">
+            <i class="fa-regular fa-clock text-emerald-600 mr-1.5"></i>Durasi Waktu Per Soal:
+          </label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="cursor-pointer border-2 border-slate-200 rounded-xl p-3 flex items-center justify-center space-x-2 text-sm font-semibold text-slate-700 hover:border-emerald-400 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-900 transition">
+              <input type="radio" name="quizDuration" value="15" class="w-4 h-4 text-emerald-600 accent-emerald-600" />
+              <span>15 Detik / Soal</span>
+            </label>
+            <label class="cursor-pointer border-2 border-slate-200 rounded-xl p-3 flex items-center justify-center space-x-2 text-sm font-semibold text-slate-700 hover:border-emerald-400 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-900 transition">
+              <input type="radio" name="quizDuration" value="30" checked class="w-4 h-4 text-emerald-600 accent-emerald-600" />
+              <span>30 Detik / Soal (Standar)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informasi Singkat Fitur -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8 text-center text-xs text-slate-600">
+        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+          <i class="fa-solid fa-shuffle text-emerald-600 text-base mb-1 block"></i>
+          <span>Acak Soal & Opsi</span>
+        </div>
+        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+          <i class="fa-solid fa-stopwatch text-emerald-600 text-base mb-1 block"></i>
+          <span>Waktu Mundur</span>
+        </div>
+        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+          <i class="fa-solid fa-calculator text-emerald-600 text-base mb-1 block"></i>
+          <span>Skor Otomatis</span>
+        </div>
+        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+          <i class="fa-solid fa-list-check text-emerald-600 text-base mb-1 block"></i>
+          <span>Review 30 Soal</span>
+        </div>
+      </div>
+
+      <button id="btnStart" onclick="startQuiz()"
+        class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-base sm:text-lg shadow-lg shadow-emerald-500/25 btn-bounce flex items-center justify-center space-x-2 transition">
+        <span>Mulai Ujian Sekarang</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </section>
+
+    <!-- 2. QUESTION SCREEN -->
+    <section id="quizScreen" class="hidden bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-slate-100 transition-all">
+      <!-- Top Bar: Progress, Question Counter & Timer -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+        <div>
+          <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+            Soal <span id="currentNumber">1</span> dari <span id="totalQuestions">30</span>
+          </span>
+        </div>
+        <div class="flex items-center space-x-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl">
+          <i class="fa-regular fa-clock text-slate-500 text-sm"></i>
+          <span class="text-xs text-slate-500 font-semibold">Sisa Waktu:</span>
+          <span id="timerText" class="text-base font-extrabold text-emerald-700 font-mono w-7 text-right">30</span><span class="text-xs text-slate-500 font-semibold">s</span>
+        </div>
+      </div>
+
+      <!-- Animated Timer Bar -->
+      <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden mb-6">
+        <div id="timerBar" class="h-full bg-emerald-500 transition-width duration-100 rounded-full" style="width: 100%;"></div>
+      </div>
+
+      <!-- Question Text -->
+      <div class="mb-6">
+        <div id="questionCategory" class="text-xs font-semibold text-slate-400 mb-1 tracking-wide">Kategori Soal</div>
+        <h3 id="questionText" class="text-base sm:text-lg md:text-xl font-bold text-slate-900 leading-snug min-h-[50px]">
+          Pertanyaan sedang dimuat...
+        </h3>
+      </div>
+
+      <!-- Options Container -->
+      <div id="optionsContainer" class="space-y-3 mb-6">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Feedback Area on Timeout or Answer -->
+      <div id="feedbackBox" class="hidden p-4 rounded-2xl mb-5 flex items-start space-x-3 text-sm">
+        <div id="feedbackIcon" class="text-xl"></div>
+        <div>
+          <p id="feedbackTitle" class="font-bold"></p>
+          <p id="feedbackDesc" class="text-xs mt-0.5"></p>
+        </div>
+      </div>
+
+      <!-- Action Button (Next) -->
+      <div class="flex justify-end pt-2">
+        <button id="btnNext" onclick="nextQuestion()" disabled
+          class="py-3 px-6 rounded-xl bg-slate-300 text-slate-500 font-bold text-sm sm:text-base flex items-center space-x-2 transition cursor-not-allowed">
+          <span id="btnNextText">Soal Berikutnya</span>
+          <i class="fa-solid fa-chevron-right text-xs"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. RESULT & REVIEW SCREEN -->
+    <section id="resultScreen" class="hidden bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 transition-all">
+      <div class="text-center mb-8">
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mb-4 shadow-inner">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200">
+          Evaluasi Geografi Kelas VIII - Semester Ganjil
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Hasil Evaluasi Belajar</h2>
+        <p class="text-slate-600 text-sm mt-1">Nama Peserta: <strong id="resultPlayerName" class="text-slate-800"></strong></p>
+      </div>
+
+      <!-- Score Card -->
+      <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 text-white rounded-3xl p-6 sm:p-8 mb-8 custom-shadow text-center relative overflow-hidden">
+        <div class="relative z-10">
+          <span class="text-xs uppercase tracking-widest text-emerald-300 font-bold block mb-1">Skor Akhir Anda</span>
+          <div class="text-5xl sm:text-6xl font-black text-white tracking-tight my-2">
+            <span id="finalScore">0</span><span class="text-2xl text-emerald-400 font-medium">/100</span>
+          </div>
+          <p id="scoreGrade" class="text-sm sm:text-base font-semibold text-emerald-200 max-w-md mx-auto"></p>
+
+          <div class="grid grid-cols-3 gap-3 mt-6 pt-6 border-t border-slate-700/60 max-w-sm mx-auto text-center">
+            <div class="bg-white/5 rounded-xl p-2.5">
+              <span class="text-xs text-slate-400 block font-medium">Benar</span>
+              <span id="statCorrect" class="text-xl font-bold text-emerald-400">0</span>
+            </div>
+            <div class="bg-white/5 rounded-xl p-2.5">
+              <span class="text-xs text-slate-400 block font-medium">Salah</span>
+              <span id="statWrong" class="text-xl font-bold text-rose-400">0</span>
+            </div>
+            <div class="bg-white/5 rounded-xl p-2.5">
+              <span class="text-xs text-slate-400 block font-medium">Total Soal</span>
+              <span id="statTotal" class="text-xl font-bold text-white">30</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-3 mb-10">
+        <button onclick="restartQuiz()"
+          class="flex-1 py-3.5 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm sm:text-base shadow-md shadow-emerald-500/20 btn-bounce flex items-center justify-center space-x-2 transition">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>Ulangi Kuis (Acak Soal Baru)</span>
+        </button>
+        <button onclick="scrollToReview()"
+          class="flex-1 py-3.5 px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm sm:text-base border border-slate-300 btn-bounce flex items-center justify-center space-x-2 transition">
+          <i class="fa-solid fa-book-open-reader"></i>
+          <span>Lihat Pembahasan Lengkap</span>
+        </button>
+      </div>
+
+      <!-- Review Section -->
+      <div id="reviewContainerSection" class="pt-6 border-t border-slate-200">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center">
+            <i class="fa-solid fa-list-check text-emerald-600 mr-2.5"></i>
+            Review Jawaban Lengkap (30 Soal)
+          </h3>
+          <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-lg">
+            Teracak Sesuai Ujian
+          </span>
+        </div>
+
+        <div id="reviewList" class="space-y-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full text-center py-4 text-xs text-slate-400 border-t border-slate-100 bg-white/50 mt-12">
+    <p>Media Pembelajaran & Evaluasi Interaktif Geografi SMP Kelas VIII &bull; Berbasis Kurikulum Materi Terpadu</p>
+  </footer>
+
+  <!-- Quiz Logic JavaScript -->
+  <script>
+    /* MASTER DATA 30 SOAL MODEL BARU (PAKET B: ANALISIS, STUDI KASUS & VARIASI DATA) */
+    const rawQuestionsData = [
+      {
+        category: "Lembaga Sosial & SDA",
+        question: "Pemerintah menerbitkan Undang-Undang Pengelolaan Lingkungan Hidup guna mencegah eksploitasi hutan lindung yang berlebihan. Hal ini merupakan perwujudan konkret dari peran...",
+        options: [
+          "Lembaga politik dalam menetapkan regulasi dan payung hukum perlindungan SDA",
+          "Lembaga ekonomi dalam meningkatkan pendapatan devisa negara",
+          "Lembaga pendidikan dalam meneliti keanekaragaman hayati",
+          "Lembaga keluarga dalam membimbing anggota rumah tangga"
+        ],
+        answer: "Lembaga politik dalam menetapkan regulasi dan payung hukum perlindungan SDA",
+        explanation: "Lembaga politik memegang kewenangan dalam perumusan dan penetapan undang-undang untuk mengatur serta melindungi SDA."
+      },
+      {
+        category: "Lembaga Sosial & SDA",
+        question: "Seorang pemuka agama dalam ceramahnya mengajak jamaah untuk senantiasa hemat air dan tidak merusak pohon karena alam adalah ciptaan yang harus dijaga. Praktik ini mencerminkan fungsi...",
+        options: [
+          "Lembaga agama dalam menanamkan ajaran bersikap bijaksana terhadap alam semesta",
+          "Lembaga keluarga dalam mengajarkan kebiasaan makan bersama",
+          "Lembaga ekonomi dalam memperluas pasar air kemasan",
+          "Lembaga politik dalam menerapkan sanksi pidana lingkungan"
+        ],
+        answer: "Lembaga agama dalam menanamkan ajaran bersikap bijaksana terhadap alam semesta",
+        explanation: "Lembaga agama berperan menanamkan nilai moral religius agar umat manusia tidak bersikap sewenang-wenang terhadap alam."
+      },
+      {
+        category: "Lembaga Sosial & SDA",
+        question: "Ibu membiasakan anak-anaknya mematikan keran air setelah digunakan dan memilah sampah dapur sejak usia dini di rumah. Hal tersebut menunjukkan peran lembaga sosial...",
+        options: [
+          "Lembaga keluarga dalam mendidik anak memanfaatkan SDA dengan baik dan benar",
+          "Lembaga pendidikan formal dalam menguji kurikulum lingkungan",
+          "Lembaga ekonomi dalam memproduksi kantong sampah plastik",
+          "Lembaga politik dalam mengeluarkan peraturan perizinan pemukiman"
+        ],
+        answer: "Lembaga keluarga dalam mendidik anak memanfaatkan SDA dengan baik dan benar",
+        explanation: "Lembaga keluarga adalah wadah sosialisasi pertama yang mendidik anak memanfaatkan SDA secara baik dan benar."
+      },
+      {
+        category: "Lembaga Sosial & SDA",
+        question: "Sebuah perusahaan manufaktur beralih menggunakan kemasan ramah lingkungan yang dapat terurai secara alami demi menjaga kelestarian bumi. Tindakan ini selaras dengan fungsi...",
+        options: [
+          "Lembaga ekonomi dalam menjamin pola produksi dan konsumsi yang berkelanjutan",
+          "Lembaga politik dalam mengangkat pejabat daerah pengawas hutan",
+          "Lembaga keluarga dalam mempererat ikatan kekerabatan",
+          "Lembaga agama dalam menetapkan tata cara peribadatan tahunan"
+        ],
+        answer: "Lembaga ekonomi dalam menjamin pola produksi dan konsumsi yang berkelanjutan",
+        explanation: "Lembaga ekonomi bertanggung jawab menjamin pola produksi dan konsumsi yang ramah lingkungan dan berkelanjutan."
+      },
+      {
+        category: "Lembaga Sosial & SDM",
+        question: "Program pelatihan kejuruan (vokasi), penguatan literasi numerasi, dan pembangunan karakter unggul bagi generasi muda merupakan wujud peran strategis dari...",
+        options: [
+          "Lembaga pendidikan dalam membangun kualitas Sumber Daya Manusia (SDM)",
+          "Lembaga politik dalam mengadakan kampanye pemilihan umum",
+          "Lembaga keluarga dalam pembagian harta warisan keluarga",
+          "Lembaga agama dalam melarang tindakan pencurian hak cipta"
+        ],
+        answer: "Lembaga pendidikan dalam membangun kualitas Sumber Daya Manusia (SDM)",
+        explanation: "Lembaga pendidikan bertugas menyosialisasikan literasi, keahlian keterampilan, inovasi pengetahuan, serta karakter SDM."
+      },
+      {
+        category: "Lembaga Sosial & SDM",
+        question: "Koperasi Unit Desa menyelenggarakan pelatihan wirausaha dan penyaluran permodalan agar para petani mampu memasarkan hasil panennya secara mandiri. Ini menggambarkan peranan...",
+        options: [
+          "Lembaga ekonomi dalam melakukan pemberdayaan masyarakat terkait produksi dan distribusi",
+          "Lembaga politik dalam meratifikasi kesepakatan batas wilayah",
+          "Lembaga pendidikan dalam menyusun akreditasi perguruan tinggi",
+          "Lembaga agama dalam menentukan hari besar keagamaan"
+        ],
+        answer: "Lembaga ekonomi dalam melakukan pemberdayaan masyarakat terkait produksi dan distribusi",
+        explanation: "Lembaga ekonomi berperan memberdayakan masyarakat agar alur produksi, distribusi, dan konsumsi dapat bergerak optimal."
+      },
+      {
+        category: "Relief Daratan",
+        question: "Jika membandingkan bentang alam Gunung dan Bukit berdasarkan parameter ketinggian dan kelerengannya, perbedaan pokok keduanya adalah...",
+        options: [
+          "Gunung berketinggian >1.000 mdpl berpuncak tajam, sedangkan bukit berketinggian <1.000 mdpl dengan puncak tidak terlalu curam",
+          "Gunung selalu memiliki kawah aktif, sedangkan bukit tidak pernah memiliki batuan",
+          "Bukit memiliki ketinggian >1.000 mdpl dengan lereng terjal, sedangkan gunung <200 mdpl",
+          "Gunung selalu dialiri aliran sungai panjang, sedangkan bukit puncaknya datar sempurna"
+        ],
+        answer: "Gunung berketinggian >1.000 mdpl berpuncak tajam, sedangkan bukit berketinggian <1.000 mdpl dengan puncak tidak terlalu curam",
+        explanation: "Sesuai materi: Gunung berketinggian >1.000 mdpl berpuncak tajam, sementara bukit berketinggian <1.000 mdpl dan puncaknya tidak terlalu curam."
+      },
+      {
+        category: "Relief Daratan",
+        question: "Wilayah permukiman padat dan lahan pertanian sawah irigasi banyak berkembang di daerah dengan kontur sangat landai dan ketinggian di bawah 200 mdpl. Relief daratan yang dimaksud adalah...",
+        options: [
+          "Dataran rendah",
+          "Dataran tinggi",
+          "Pegunungan",
+          "Lembah terjal"
+        ],
+        answer: "Dataran rendah",
+        explanation: "Dataran rendah adalah wilayah daratan datar berkemiringan sangat landai dengan ketinggian <200 mdpl."
+      },
+      {
+        category: "Relief Daratan",
+        question: "Kawasan Dieng di Jawa Tengah memiliki bentang lahan berupa daratan dengan bagian puncak yang relatif datar, dikelilingi oleh lereng-lereng curam pada ketinggian 200 hingga 1.000 mdpl. Kawasan ini tergolong...",
+        options: [
+          "Dataran tinggi (Plateau)",
+          "Dataran rendah (Lowland)",
+          "Lembah sesar (Graben)",
+          "Bukit pesisir"
+        ],
+        answer: "Dataran tinggi (Plateau)",
+        explanation: "Dataran tinggi merupakan daratan berpuncak datar yang dipisahkan daerah sekitarnya oleh lereng curam (ketinggian 200-1000 mdpl)."
+      },
+      {
+        category: "Relief Daratan",
+        question: "Dataran sempit memanjang yang berada di antara dua lereng terjal dan menjadi jalur mengalirnya aliran air sungai menuju muara dinamakan...",
+        options: [
+          "Lembah (Valley)",
+          "Punggung laut",
+          "Dataran tinggi",
+          "Ambang daratan"
+        ],
+        answer: "Lembah (Valley)",
+        explanation: "Lembah adalah daerah lekukan yang lebih rendah daripada sekitarnya, berupa dataran panjang dan biasanya dialiri sungai."
+      },
+      {
+        category: "Relief Daratan",
+        question: "Barisan Bukit Barisan di Pulau Sumatera yang membentang sambung-menyambung dari utara ke selatan dengan ketinggian beragam diklasifikasikan sebagai...",
+        options: [
+          "Pegunungan",
+          "Dataran rendah",
+          "Dangkalan benua",
+          "Lubuk daratan"
+        ],
+        answer: "Pegunungan",
+        explanation: "Pegunungan adalah rangkaian dari beberapa gunung yang memanjang sambung-menyambung dengan ketinggian berbeda."
+      },
+      {
+        category: "Relief Dasar Laut",
+        question: "Nelayan tradisional sering menangkap ikan di zona laut yang relatif landai dengan kedalaman antara 0 sampai 200 meter. Relief dasar laut yang dimaksud adalah...",
+        options: [
+          "Dangkalan (Paparan/Shelf)",
+          "Palung laut (Trench)",
+          "Lubuk laut (Basin)",
+          "Ambang laut"
+        ],
+        answer: "Dangkalan (Paparan/Shelf)",
+        explanation: "Dangkalan/Paparan (Shelf) merupakan dasar laut yang melandai ke arah laut dengan kedalaman 0-200 meter."
+      },
+      {
+        category: "Relief Dasar Laut",
+        question: "Relief bawah laut berupa bentukan dasar laut yang mencuat ke atas menyerupai tanggul pemisah antara dua laut dalam dinamakan...",
+        options: [
+          "Ambang laut",
+          "Alur laut",
+          "Palung laut",
+          "Paparan benua"
+        ],
+        answer: "Ambang laut",
+        explanation: "Ambang laut adalah dasar laut yang mencuat kemudian memisahkan perairan yang satu dengan perairan yang lain."
+      },
+      {
+        category: "Relief Dasar Laut",
+        question: "Dasar laut yang memiliki bentuk depresi cekung melingkar menyerupai mangkuk raksasa dengan dasar yang luas dan dalam disebut...",
+        options: [
+          "Lubuk laut (Basin)",
+          "Palung laut (Trench)",
+          "Punggung laut",
+          "Dangkalan"
+        ],
+        answer: "Lubuk laut (Basin)",
+        explanation: "Lubuk laut (basin/bekken) merupakan dasar laut berbentuk bulat menyerupai mangkuk."
+      },
+      {
+        category: "Relief Dasar Laut",
+        question: "Palung Mariana di Samudra Pasifik memiliki karakteristik berupa jurang dasar laut yang sangat dalam, sempit, memanjang, dan lerengnya amat curam. Relief ini dikenal secara ilmiah dengan istilah...",
+        options: [
+          "Trench (Palung Laut)",
+          "Shelf (Paparan)",
+          "Basin (Lubuk Laut)",
+          "Seamount (Gunung Laut)"
+        ],
+        answer: "Trench (Palung Laut)",
+        explanation: "Palung laut (trench) adalah lembah yang sangat dalam dan memanjang di dasar laut serta memiliki lereng yang curam."
+      },
+      {
+        category: "Relief Dasar Laut",
+        question: "Punggungan pegunungan di dasar laut yang puncaknya terangkat menyembul ke atas permukaan air laut dan membentuk untaian pulau-pulau baru disebut...",
+        options: [
+          "Punggung laut",
+          "Ambang laut",
+          "Alur laut",
+          "Dangkalan"
+        ],
+        answer: "Punggung laut",
+        explanation: "Punggung laut merupakan pegunungan di dasar laut yang punggungnya muncul di atas permukaan air laut membentuk deretan kepulauan."
+      },
+      {
+        category: "Relief Dasar Laut",
+        question: "Lembah aliran sungai purba di daratan yang tenggelam di bawah air laut akibat kenaikan permukaan air laut masa lalu disebut...",
+        options: [
+          "Alur laut",
+          "Lubuk laut",
+          "Gunung laut",
+          "Palung laut"
+        ],
+        answer: "Alur laut",
+        explanation: "Alur laut adalah relief dasar laut berupa bentang lembah/sungai daratan yang mengalami peristiwa penenggelaman."
+      },
+      {
+        category: "Relief Dasar Laut",
+        question: "Krakatau yang berada di Selat Sunda merupakan contoh relief dasar laut berupa gunung yang dasarnya berada di lantai samudra dan mencuat hingga melampaui permukaan air. Bentukan ini disebut...",
+        options: [
+          "Gunung laut",
+          "Ambang laut",
+          "Lubuk laut",
+          "Alur laut"
+        ],
+        answer: "Gunung laut",
+        explanation: "Gunung laut adalah gunung yang dimulai dari dasar laut dengan puncak menjulang hingga ke permukaan laut."
+      },
+      {
+        category: "Dinamika Penduduk",
+        question: "Pada beberapa sistem kekerabatan patrilineal seperti adat Batak, kelahiran anak laki-laki sangat didambakan sebagai penerus garis keturunan/marga. Pandangan ini tergolong sebagai...",
+        options: [
+          "Faktor pro natalitas (pendukung tingginya angka kelahiran)",
+          "Faktor anti natalitas (penghambat angka kelahiran)",
+          "Faktor pro mortalitas (pendukung angka kematian)",
+          "Faktor anti mortalitas (penghambat angka kematian)"
+        ],
+        answer: "Faktor pro natalitas (pendukung tingginya angka kelahiran)",
+        explanation: "Kebutuhan akan penerus garis keturunan marga merupakan faktor pendukung kelahiran (pro natalitas)."
+      },
+      {
+        category: "Dinamika Penduduk",
+        question: "Pepatah tradisional yang berbunyi 'banyak anak, banyak rezeki' serta kebiasaan melangsungkan pernikahan pada usia yang amat muda berdampak langsung terhadap...",
+        options: [
+          "Peningkatan laju angka kelahiran (pro natalitas)",
+          "Penurunan angka kelahiran kasar (anti natalitas)",
+          "Peningkatan angka kematian bayi (pro mortalitas)",
+          "Perpanjangan usia harapan hidup (anti mortalitas)"
+        ],
+        answer: "Peningkatan laju angka kelahiran (pro natalitas)",
+        explanation: "Anggapan banyak anak banyak rezeki dan pernikahan usia muda adalah faktor pendorong angka kelahiran (pro natalitas)."
+      },
+      {
+        category: "Dinamika Penduduk",
+        question: "Pemerintah memberlakukan Undang-Undang Perkawinan tentang batas usia minimal menikah dan menggencarkan program Keluarga Berencana (KB). Tindakan ini tergolong ke dalam...",
+        options: [
+          "Faktor anti natalitas",
+          "Faktor pro natalitas",
+          "Faktor pro mortalitas",
+          "Faktor migrasi alami"
+        ],
+        answer: "Faktor anti natalitas",
+        explanation: "Program KB dan pembatasan usia menikah ditujukan untuk menahan/menghambat laju kelahiran (faktor anti natalitas)."
+      },
+      {
+        category: "Dinamika Penduduk",
+        question: "Meningkatnya kesadaran kaum perempuan untuk menempuh pendidikan tinggi hingga perguruan tinggi dan berkarir umumnya menunda usia perkawinan. Hal ini berfungsi sebagai...",
+        options: [
+          "Faktor anti natalitas",
+          "Faktor pro natalitas",
+          "Faktor pro mortalitas",
+          "Faktor anti mortalitas"
+        ],
+        answer: "Faktor anti natalitas",
+        explanation: "Tingginya tingkat pendidikan dan menikah di usia tua merupakan faktor penghambat kelahiran (anti natalitas)."
+      },
+      {
+        category: "Dinamika Penduduk",
+        question: "Timbulnya peperangan antarsuku, wabah penyakit menular, serta minimnya ketersediaan rumah sakit dan dokter di daerah terpencil merupakan pemicu utama dari...",
+        options: [
+          "Tingginya angka kematian (faktor pro mortalitas)",
+          "Penurunan angka kematian (faktor anti mortalitas)",
+          "Tingginya angka kelahiran (faktor pro natalitas)",
+          "Penghambat angka kelahiran (faktor anti natalitas)"
+        ],
+        answer: "Tingginya angka kematian (faktor pro mortalitas)",
+        explanation: "Konflik bersenjata, wabah penyakit, kecelakaan, dan minimnya sarana kesehatan merupakan pemicu kematian (pro mortalitas)."
+      },
+      {
+        category: "Dinamika Penduduk",
+        question: "Meningkatnya kesadaran masyarakat menjaga kebersihan sanitasi dan adanya norma agama yang melarang tindakan menghilangkan nyawa sendiri tergolong ke dalam...",
+        options: [
+          "Faktor anti mortalitas",
+          "Faktor pro mortalitas",
+          "Faktor pro natalitas",
+          "Faktor anti natalitas"
+        ],
+        answer: "Faktor anti mortalitas",
+        explanation: "Edukasi kesehatan yang baik dan ajaran agama yang melarang pembunuhan/bunuh diri menekan angka kematian (anti mortalitas)."
+      },
+      {
+        category: "Perhitungan Demografi (CBR)",
+        question: "Pada pertengahan tahun 2024, sebuah wilayah berpenduduk 80.000 jiwa mencatat kelahiran bayi hidup sebanyak 1.600 bayi dalam setahun. Berapakah nilai Crude Birth Rate (CBR)?",
+        options: [
+          "20",
+          "16",
+          "25",
+          "30"
+        ],
+        answer: "20",
+        explanation: "CBR = (Total Bayi Lahir / Total Penduduk) × 1.000 = (1.600 / 80.000) × 1.000 = 0,02 × 1.000 = 20 kelahiran per 1.000 penduduk."
+      },
+      {
+        category: "Perhitungan Demografi (ASBR)",
+        question: "Di Kecamatan Sentosa tercatat ada 2.000 orang wanita pada kelompok usia 20-24 tahun. Sepanjang tahun, jumlah kelahiran dari wanita di kelompok umur tersebut adalah 160 bayi. Berapakah ASBR usia 20-24 tahun?",
+        options: [
+          "80",
+          "160",
+          "40",
+          "20"
+        ],
+        answer: "80",
+        explanation: "ASBR (20-24) = (Bayi Lahir dari Wanita 20-24 / Total Wanita 20-24) × 1.000 = (160 / 2.000) × 1.000 = 80 kelahiran per 1.000 wanita kelompok tersebut."
+      },
+      {
+        category: "Perhitungan Demografi (CDR)",
+        question: "Sebuah kabupaten dengan total penduduk 100.000 jiwa mendata jumlah kematian penduduk dari seluruh kelompok umur selama setahun sebanyak 1.500 orang. Berapakah nilai CDR-nya?",
+        options: [
+          "15",
+          "10",
+          "25",
+          "150"
+        ],
+        answer: "15",
+        explanation: "CDR = (Total Kematian / Total Seluruh Penduduk) × 1.000 = (1.500 / 100.000) × 1.000 = 15 kematian per 1.000 penduduk."
+      },
+      {
+        category: "Perhitungan Demografi (ASDR)",
+        question: "Di Kota Bunga terdapat kelompok penduduk lansia (usia 65+) sebanyak 4.000 jiwa. Dalam satu tahun, jumlah kematian pada kategori lansia tersebut adalah 120 orang. Nilai ASDR lansia adalah...",
+        options: [
+          "30",
+          "12",
+          "24",
+          "40"
+        ],
+        answer: "30",
+        explanation: "ASDR (65+) = (Kematian Lansia / Total Penduduk Lansia) × 1.000 = (120 / 4.000) × 1.000 = 30 kematian per 1.000 lansia."
+      },
+      {
+        category: "Perhitungan Demografi (CBR)",
+        question: "Di Desa Sukamaju dengan jumlah penduduk total 40.000 orang tercatat ada 600 kelahiran hidup selama kurun waktu satu tahun kalender. Berapakah Angka Kelahiran Kasar (CBR) di desa tersebut?",
+        options: [
+          "15",
+          "20",
+          "24",
+          "12"
+        ],
+        answer: "15",
+        explanation: "CBR = (Total Bayi Lahir / Total Penduduk) × 1.000 = (600 / 40.000) × 1.000 = 15 kelahiran per 1.000 penduduk."
+      },
+      {
+        category: "Perhitungan Demografi (ASDR Balita)",
+        question: "Berdasarkan survei kesehatan balita (usia 0-5 tahun) di Kelurahan Asri, dari total 5.000 balita tercatat terjadi 75 kematian balita dalam setahun. Angka Kematian Khusus Balita (ASDR 0-5) adalah...",
+        options: [
+          "15",
+          "7,5",
+          "25",
+          "50"
+        ],
+        answer: "15",
+        explanation: "ASDR (0-5) = (Kematian Balita / Total Balita 0-5 thn) × 1.000 = (75 / 5.000) × 1.000 = 15 kematian per 1.000 balita."
+      }
+    ];
+
+    /* STATE VARIABLES */
+    let quizData = [];
+    let currentQuestionIndex = 0;
+    let selectedDuration = 30; // seconds
+    let timerInterval = null;
+    let timeLeft = 30;
+    let score = 0;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let playerName = "";
+    let userAnswers = []; // Records user choices and question details
+
+    /* UTILITY: Shuffle Array (Fisher-Yates) */
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    /* SOUND EFFECTS SYNTHESIS (Tone-free Web Audio API) */
+    const audioCtx = (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined')
+      ? new (window.AudioContext || window.webkitAudioContext)()
+      : null;
+
+    function playBeep(type) {
+      if (!audioCtx) return;
+      try {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+        if (type === 'correct') {
+          // Cheerful chime (C5 -> E5 -> G5)
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (type === 'wrong') {
+          // Low buzzing tone
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(180, now);
+          osc.frequency.exponentialRampToValueAtTime(110, now + 0.25);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        } else if (type === 'timeout') {
+          // Warning dual tone
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(300, now);
+          osc.frequency.setValueAtTime(200, now + 0.15);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        }
+      } catch (e) {
+        console.log("Audio not supported or blocked");
+      }
+    }
+
+    /* TRIGGER CONFETTI */
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 50,
+          spread: 70,
+          origin: { y: 0.65 },
+          colors: ['#10b981', '#059669', '#34d399', '#f59e0b', '#3b82f6']
+        });
+      }
+    }
+
+    /* START QUIZ */
+    function startQuiz() {
+      const nameInput = document.getElementById('playerName');
+      const errorMsg = document.getElementById('nameError');
+      const trimmedName = nameInput.value.trim();
+
+      if (!trimmedName) {
+        errorMsg.classList.remove('hidden');
+        nameInput.focus();
+        return;
+      }
+      errorMsg.classList.add('hidden');
+      playerName = trimmedName;
+
+      // Ambil durasi
+      const durationRadios = document.getElementsByName('quizDuration');
+      for (const radio of durationRadios) {
+        if (radio.checked) {
+          selectedDuration = parseInt(radio.value, 10);
+          break;
+        }
+      }
+
+      // Set badge header
+      document.getElementById('playerBadgeName').textContent = playerName;
+      document.getElementById('playerBadge').classList.remove('hidden');
+      document.getElementById('playerBadge').classList.add('flex');
+
+      // Siapkan & Acak Soal dan Opsi Setiap Mulai Kuis
+      quizData = rawQuestionsData.map(q => {
+        return {
+          category: q.category,
+          question: q.question,
+          answer: q.answer,
+          explanation: q.explanation,
+          options: shuffleArray(q.options) // Pilihan jawaban selalu teracak
+        };
+      });
+      quizData = shuffleArray(quizData); // Urutan 30 soal diacak
+
+      // Reset counters & state
+      currentQuestionIndex = 0;
+      correctCount = 0;
+      wrongCount = 0;
+      userAnswers = [];
+
+      // Update UI Transition
+      document.getElementById('startScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.add('hidden');
+      document.getElementById('quizScreen').classList.remove('hidden');
+
+      // Tampilkan Soal Pertama
+      renderQuestion();
+    }
+
+    /* RENDER CURRENT QUESTION */
+    function renderQuestion() {
+      clearInterval(timerInterval);
+
+      const q = quizData[currentQuestionIndex];
+      const totalQ = quizData.length;
+
+      // Update labels
+      document.getElementById('currentNumber').textContent = currentQuestionIndex + 1;
+      document.getElementById('totalQuestions').textContent = totalQ;
+      document.getElementById('questionCategory').textContent = `Materi: ${q.category}`;
+      document.getElementById('questionText').textContent = q.question;
+
+      // Sembunyikan feedback & disable tombol Next
+      const feedbackBox = document.getElementById('feedbackBox');
+      feedbackBox.classList.add('hidden');
+      feedbackBox.className = 'hidden p-4 rounded-2xl mb-5 flex items-start space-x-3 text-sm';
+
+      const btnNext = document.getElementById('btnNext');
+      btnNext.disabled = true;
+      btnNext.className = "py-3 px-6 rounded-xl bg-slate-200 text-slate-400 font-bold text-sm sm:text-base flex items-center space-x-2 transition cursor-not-allowed";
+      
+      const btnNextText = document.getElementById('btnNextText');
+      btnNextText.textContent = (currentQuestionIndex === totalQ - 1) ? "Lihat Hasil Kuis" : "Soal Berikutnya";
+
+      // Render Options A, B, C, D
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      const optionLabels = ['A', 'B', 'C', 'D'];
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.option = opt;
+        btn.className = `option-btn w-full p-3.5 sm:p-4 text-left rounded-2xl border-2 border-slate-200 bg-white text-slate-800 font-semibold text-sm sm:text-base flex items-center space-x-3 transition custom-shadow`;
+
+        // Badge huruf
+        const badge = document.createElement('span');
+        badge.className = 'badge w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-sm shrink-0 border border-slate-300';
+        badge.textContent = optionLabels[idx] || (idx + 1);
+
+        // Teks Opsi
+        const textSpan = document.createElement('span');
+        textSpan.className = 'flex-1 leading-snug';
+        textSpan.textContent = opt;
+
+        btn.appendChild(badge);
+        btn.appendChild(textSpan);
+
+        btn.onclick = () => selectAnswer(opt, btn);
+        optionsContainer.appendChild(btn);
+      });
+
+      // Mulai Countdown Timer
+      startTimer();
+    }
+
+    /* COUNTDOWN TIMER LOGIC */
+    function startTimer() {
+      timeLeft = selectedDuration;
+      const timerText = document.getElementById('timerText');
+      const timerBar = document.getElementById('timerBar');
+
+      timerText.textContent = timeLeft;
+      timerBar.style.width = '100%';
+      timerBar.className = 'h-full bg-emerald-500 transition-width duration-100 rounded-full';
+
+      const stepMs = 100;
+      const totalSteps = (selectedDuration * 1000) / stepMs;
+      let stepsTaken = 0;
+
+      timerInterval = setInterval(() => {
+        stepsTaken++;
+        const percentRemaining = Math.max(0, 100 - (stepsTaken / totalSteps) * 100);
+        timerBar.style.width = `${percentRemaining}%`;
+
+        // Warna timer bar berubah sesuai sisa waktu
+        if (percentRemaining < 25) {
+          timerBar.className = 'h-full bg-rose-500 transition-width duration-100 rounded-full';
+        } else if (percentRemaining < 50) {
+          timerBar.className = 'h-full bg-amber-500 transition-width duration-100 rounded-full';
+        }
+
+        const currentSec = Math.ceil(selectedDuration - (stepsTaken * stepMs / 1000));
+        timerText.textContent = Math.max(0, currentSec);
+
+        if (stepsTaken >= totalSteps) {
+          clearInterval(timerInterval);
+          handleTimeOut();
+        }
+      }, stepMs);
+    }
+
+    /* USER MEMILIH JAWABAN */
+    function selectAnswer(chosenOption, clickedBtn) {
+      clearInterval(timerInterval);
+
+      const q = quizData[currentQuestionIndex];
+      const isCorrect = (chosenOption === q.answer);
+      const allOptionButtons = document.querySelectorAll('.option-btn');
+
+      // Kunci semua opsi agar tidak bisa diklik ulang
+      allOptionButtons.forEach(btn => btn.disabled = true);
+
+      // Simpan riwayat jawaban user
+      userAnswers.push({
+        questionNumber: currentQuestionIndex + 1,
+        question: q.question,
+        category: q.category,
+        userSelected: chosenOption,
+        correctAnswer: q.answer,
+        isCorrect: isCorrect,
+        timedOut: false,
+        explanation: q.explanation
+      });
+
+      // Highlight Tombol
+      if (isCorrect) {
+        correctCount++;
+        clickedBtn.classList.remove('bg-white', 'border-slate-200');
+        clickedBtn.classList.add('option-correct');
+        playBeep('correct');
+        triggerConfetti();
+
+        showFeedback(true, "Luar biasa, Jawaban Benar!", q.explanation);
+      } else {
+        wrongCount++;
+        clickedBtn.classList.remove('bg-white', 'border-slate-200');
+        clickedBtn.classList.add('option-wrong');
+        playBeep('wrong');
+
+        // Tampilkan jawaban yang benar berwarna hijau
+        allOptionButtons.forEach(btn => {
+          if (btn.dataset.option === q.answer) {
+            btn.classList.add('option-correct');
+          } else if (btn !== clickedBtn) {
+            btn.classList.add('option-dimmed');
+          }
+        });
+
+        showFeedback(false, "Jawaban Kurang Tepat", `Kunci yang benar: "${q.answer}". ${q.explanation}`);
+      }
+
+      enableNextButton();
+    }
+
+    /* KETIKA WAKTU HABIS */
+    function handleTimeOut() {
+      const q = quizData[currentQuestionIndex];
+      const allOptionButtons = document.querySelectorAll('.option-btn');
+
+      allOptionButtons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.dataset.option === q.answer) {
+          // Sorot jawaban yang benar dengan warna hijau
+          btn.classList.add('option-correct');
+        } else {
+          btn.classList.add('option-dimmed');
+        }
+      });
+
+      wrongCount++;
+      playBeep('timeout');
+
+      // Rekam data
+      userAnswers.push({
+        questionNumber: currentQuestionIndex + 1,
+        question: q.question,
+        category: q.category,
+        userSelected: "(Waktu Habis)",
+        correctAnswer: q.answer,
+        isCorrect: false,
+        timedOut: true,
+        explanation: q.explanation
+      });
+
+      showFeedback(false, "Waktu Habis!", `Jawaban yang benar adalah: "${q.answer}".`);
+      enableNextButton();
+    }
+
+    /* FEEDBACK BANNER */
+    function showFeedback(isPositive, title, desc) {
+      const fb = document.getElementById('feedbackBox');
+      const icon = document.getElementById('feedbackIcon');
+      const fTitle = document.getElementById('feedbackTitle');
+      const fDesc = document.getElementById('feedbackDesc');
+
+      fb.classList.remove('hidden');
+      fTitle.textContent = title;
+      fDesc.textContent = desc;
+
+      if (isPositive) {
+        fb.className = "p-4 rounded-2xl mb-5 flex items-start space-x-3 text-sm bg-emerald-50 border border-emerald-200 text-emerald-900";
+        icon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>';
+      } else {
+        fb.className = "p-4 rounded-2xl mb-5 flex items-start space-x-3 text-sm bg-rose-50 border border-rose-200 text-rose-900";
+        icon.innerHTML = '<i class="fa-solid fa-circle-exclamation text-rose-600 mt-0.5"></i>';
+      }
+    }
+
+    /* ENABLE TOMBOL NEXT */
+    function enableNextButton() {
+      const btnNext = document.getElementById('btnNext');
+      btnNext.disabled = false;
+      btnNext.className = "py-3 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm sm:text-base flex items-center space-x-2 transition cursor-pointer shadow-md shadow-emerald-600/30 btn-bounce";
+    }
+
+    /* SOAL BERIKUTNYA */
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < quizData.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    /* TAMPILKAN HASIL AKHIR & REVIEW */
+    function showResults() {
+      clearInterval(timerInterval);
+
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.remove('hidden');
+
+      // Hitung skor: (Benar / Total) * 100
+      const totalSoal = quizData.length;
+      const finalScoreVal = Math.round((correctCount / totalSoal) * 100);
+
+      document.getElementById('resultPlayerName').textContent = playerName;
+      document.getElementById('finalScore').textContent = finalScoreVal;
+      document.getElementById('statCorrect').textContent = correctCount;
+      document.getElementById('statWrong').textContent = wrongCount;
+      document.getElementById('statTotal').textContent = totalSoal;
+
+      // Keterangan Kelulusan / Predikat
+      const gradeElem = document.getElementById('scoreGrade');
+      if (finalScoreVal >= 85) {
+        gradeElem.textContent = "Istimewa! Pemahaman materi Geografi Anda sangat mendalam dan matang.";
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 100, spread: 100, origin: { y: 0.5 } });
+        }
+      } else if (finalScoreVal >= 70) {
+        gradeElem.textContent = "Bagus Sekali! Anda menguasai sebagian besar materi dengan baik.";
+      } else if (finalScoreVal >= 55) {
+        gradeElem.textContent = "Cukup Baik. Pelajari kembali poin-poin perhitungan dan istilah dasar laut.";
+      } else {
+        gradeElem.textContent = "Perlu Belajar Lagi. Cermati review pembahasan di bawah untuk memperdalam materi.";
+      }
+
+      // Render Review Lengkap (30 Soal)
+      renderReviewList();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* RENDER 30 REVIEW SOAL BESERTA KUNCI & JAWABAN PESERTA */
+    function renderReviewList() {
+      const reviewList = document.getElementById('reviewList');
+      reviewList.innerHTML = '';
+
+      userAnswers.forEach((ans, index) => {
+        const item = document.createElement('div');
+        const isRight = ans.isCorrect;
+
+        item.className = `p-4 sm:p-5 rounded-2xl border ${isRight ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'} transition`;
+
+        const headerHtml = `
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold px-2.5 py-0.5 rounded-md ${isRight ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+              Soal ${index + 1} &bull; ${ans.category}
+            </span>
+            <span class="text-xs font-extrabold flex items-center ${isRight ? 'text-emerald-700' : 'text-rose-700'}">
+              ${isRight ? '<i class="fa-solid fa-circle-check mr-1.5"></i>BENAR' : '<i class="fa-solid fa-circle-xmark mr-1.5"></i>SALAH'}
+            </span>
+          </div>
+        `;
+
+        const questionHtml = `
+          <h4 class="text-sm sm:text-base font-bold text-slate-900 mb-3 leading-snug">
+            ${ans.question}
+          </h4>
+        `;
+
+        const detailsHtml = `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm mb-2.5">
+            <div class="p-2.5 rounded-xl ${isRight ? 'bg-emerald-100/70 border border-emerald-300 text-emerald-950' : 'bg-rose-100/70 border border-rose-300 text-rose-950'} font-medium">
+              <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">Jawaban Anda:</span>
+              <span>${ans.userSelected}</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 font-medium">
+              <span class="block text-[11px] font-bold uppercase tracking-wider text-emerald-700 mb-0.5">Kunci Jawaban Benar:</span>
+              <span class="font-bold text-emerald-900">${ans.correctAnswer}</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-600 bg-white/70 p-2.5 rounded-xl border border-slate-200">
+            <strong class="text-slate-800">Catatan:</strong> ${ans.explanation}
+          </p>
+        `;
+
+        item.innerHTML = headerHtml + questionHtml + detailsHtml;
+        reviewList.appendChild(item);
+      });
+    }
+
+    /* SCROLL TO REVIEW */
+    function scrollToReview() {
+      const target = document.getElementById('reviewContainerSection');
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* RESTART QUIZ (Shuffles new set) */
+    function restartQuiz() {
+      startQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
